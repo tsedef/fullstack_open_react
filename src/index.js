@@ -28,5 +28,5 @@ axios  //More appropriate way to use a promise and its response -- chained metho
 // // root.render(<Unicafe />)
 // root.render(<Collections props={notes}/>) //create new component
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Collections />)
-  // <Phonebook />)
+  // <Collections />)
+  <Phonebook />)
