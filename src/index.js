@@ -15,18 +15,13 @@ import './index.css'
 //   })
 
 //Phonebook db
-axios  //More appropriate way to use a promise and its response -- chained method calls
-  .get('http://localhost:3001/persons')
-  .then(response => {
-    const persons = response.data
-    console.log(`persons from json db: ${persons}`)
-  })
+// axios   //More appropriate way to use a promise and its response -- chained method calls
+//   .get('http://localhost:3001/persons')
+//   .then(response => {
+//     const persons = response.data
+//     console.log(`persons from json db: ${persons}`)
+//   })
 
-// const container = (document.getElementById('root'))
-// const root = ReactDOM.createRoot(container)
-// // root.render(<App />)
-// // root.render(<Unicafe />)
-// root.render(<Collections props={notes}/>) //create new component
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <Collections />)
   <Phonebook />)

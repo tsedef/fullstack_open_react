@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Phonebook from '../Phonebook'
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = '/api/persons' //express static using 'build'
+//http://localhost:3001/api/persons
 
 const getAll = () => {
   const request = axios.get(baseUrl)
