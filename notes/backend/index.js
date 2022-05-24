@@ -2,10 +2,11 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 app.use(cors()) //connecting server and frontend ... different ports(cross-origin resource sharing )
+app.use(express.json())
 app.use(express.static('build'))
 
 
-app.use(express.json())
+
 
 let notes = [
     {

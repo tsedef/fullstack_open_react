@@ -1,14 +1,13 @@
-const express = require('../../notes/node_modules/@types/express')
+const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors') //connecting server and frontend ... different ports(cross-origin resource sharing )
 
-app.use(express.static('build'))
-app.use(express.json())
 app.use(cors())
-
+app.use(express.json())
+app.use(express.static('build'))
 //create "middleware"
-const logger = morgan('tiny')
+// const logger = morgan('tiny')
 
 let persons = [
     { 
@@ -32,6 +31,8 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+
 
 app.get('/', (request, response) => {
     response.send("<h1>Hello! We are in root/ <h1/>")
@@ -113,7 +114,7 @@ app.post('/api/persons',  morgan(':method :url :status :res[content-length] - :r
 app.use(morgan('tiny'))
 
 
-const PORT = 3001
-app.listen(PORT,  () => {
+const PORT = process.env.PORT || 3001
+  app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
-})
+  })

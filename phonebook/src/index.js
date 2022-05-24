@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import axios from 'axios'
-// import App from './App'
-import Collections from './Collections'
 import Phonebook from './Phonebook'
 import './index.css'
 

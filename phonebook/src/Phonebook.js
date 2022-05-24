@@ -1,8 +1,7 @@
-import { useState, useEffect } from '../../notes/node_modules/@types/react'
+import { useState, useEffect } from 'react'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
-import axios from '../../notes/node_modules/axios'
 import phoneService from './services/phonebook'
 import Notification from './components/Notification'
 
@@ -18,7 +17,9 @@ const Phonebook = () => {
     // let temp = phoneService.getAll()
     // console.log("useAll", temp)
     phoneService.getAll()
-    .then(person => setPersons(person))
+    .then(person => {
+      setPersons(person)
+    })
   }, [])
   
   const addToPersons = (event) => {

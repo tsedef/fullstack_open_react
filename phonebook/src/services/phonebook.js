@@ -1,7 +1,6 @@
-import axios from '../../../notes/node_modules/axios'
-import Phonebook from '../Phonebook'
+import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/persons'
+const baseUrl = '/api/persons'
 //'/api/persons' //express static using 'build'
 //http://localhost:3001/api/persons
 

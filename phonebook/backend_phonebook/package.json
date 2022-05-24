@@ -1,20 +1,23 @@
 {
   "name": "backend_phonebook",
   "version": "0.0.1",
-  "description": "backend exercises 3.1-3.6",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "build:ui": "rm -rf build && cd ../ && npm run build && cp -r build ./backend_phonebook",
+    "deploy": "git push heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",    
+    "logs:prod": "heroku logs --tail"
   },
-
   "author": "Tsedef Saias",
+  "proxy": "http://localhost:3001",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.1",
-    "morgan": "^1.10.0"
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

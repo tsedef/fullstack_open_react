@@ -1,7 +1,7 @@
 import axios from 'axios'
 //Because of our situation, both the frontend and the backend are at the same address, (SEE express static (build in backend and frontend))
 // we can declare baseUrl as a relative URL. This means we can leave out the part declaring the server.
-const baseUrl = 'http://localhost:3001/api/notes'
+const baseUrl = '/api/notes'
 
 
 //'https://tsedefsnotes.herokuapp.com' 

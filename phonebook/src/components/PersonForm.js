@@ -1,5 +1,3 @@
-import Collections from '../Collections'
-
 const PersonForm = ({submitHandler, nameInputVal, nameOnChange, numberInputVal, numberOnChange}) => {
     return(
     <form onSubmit={submitHandler}>
