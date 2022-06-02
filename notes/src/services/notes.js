@@ -1,12 +1,16 @@
 import axios from 'axios'
 //Because of our situation, both the frontend and the backend are at the same address, (SEE express static (build in backend and frontend))
 // we can declare baseUrl as a relative URL. This means we can leave out the part declaring the server.
-const baseUrl = '/api/notes'
-
-
+const baseUrl = 'http://localhost:3001/api/notes'
 //'https://tsedefsnotes.herokuapp.com' 
 //frontend also works with the backend on Heroku!
 //http://localhost:3001/api/notes
+
+let token = null
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
+
 /*
    api/notes 
 whenever express gets an HTTP GET request it will first check if the build directory contains a file corresponding to the request's address. If a correct file is found, express will return it.
@@ -17,9 +21,12 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
-  return request.then(response => response.data)
+const create = async newObject => {
+  const config = {
+    headers: { Authorization: token }
+  } 
+  const response = await axios.post(baseUrl, newObject, config)
+  return response.data
 }
 
 const update = (id, newObject) => {
@@ -34,4 +41,4 @@ getAll: getAll,
 create: create, 
 update: update 
 */
-export default { getAll, create, update }
+export default { getAll, create, update, setToken }
