@@ -3,25 +3,25 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 usersRouter.get('/', async (request, response) => {
-    const users = await User
+  const users = await User
     /*
-        The parameter given to the populate method defines that the ids referencing note objects in the notes 
+        The parameter given to the populate method defines that the ids referencing note objects in the notes
         field of the user document will be replaced by the referenced note documents.
     */
-    .find({}).populate('notes', { content: 1, date: 1 }) 
+    .find({}).populate('notes', { content: 1, date: 1 })
     //Using populate paramters for choosing the fields we want to include from the documents using Mongo syntax
 
-    response.json(users)
-}) 
+  response.json(users)
+})
 
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
 
   const existingUser = await User.findOne({ username })
   if(existingUser){
-      return response.status(400).json({
-          error: 'username must be unique'
-      })
+    return response.status(400).json({
+      error: 'username must be unique'
+    })
   }
 
   const saltRounds = 10

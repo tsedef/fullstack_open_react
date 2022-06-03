@@ -1,7 +1,7 @@
-const Filter = ({filterVal, filterOnChange}) => {
+const Filter = ({ filterVal, filterOnChange }) => {
 
   return(
-  <input value={filterVal} onChange={filterOnChange}></input>
+    <input value={filterVal} onChange={filterOnChange}></input>
   )
 }
 

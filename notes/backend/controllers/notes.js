@@ -11,8 +11,8 @@ const config = require('../utils/config')
   */
 notesRouter.get('/', async (request, response) => {
   const notes = await Note
-  .find({})
-  .populate('user', { username: 1, name: 1})
+    .find({})
+    .populate('user', { username: 1, name: 1 })
   //The functionality of the populate method of Mongoose is based on the fact that we have defined "types"
   //to the references in the Mongoose schema with the ref option from Schema model
   response.json(notes)
@@ -31,12 +31,12 @@ notesRouter.get('/', async (request, response) => {
     will continue to the error handler middleware.
     */
 notesRouter.get('/:id', async (request, response, next) => {
-    const note = await Note.findById(request.params.id)
-    if(note) {
-        response.json(note)
-    }else {
-        response.status(404).end() //404: not found! error specifies format of id is incorrect
-    }
+  const note = await Note.findById(request.params.id)
+  if(note) {
+    response.json(note)
+  }else {
+    response.status(404).end() //404: not found! error specifies format of id is incorrect
+  }
 })
 
 const getTokenForm = request => {
@@ -57,12 +57,12 @@ const getTokenForm = request => {
 notesRouter.post('/', async (request, response, next) => {
   const body = request.body
   const token = getTokenForm(request)
-  const decodedToken = jwt.verify(token, config.SECRET) //decodes token if verified and returns object which token was based on 
-                                                        //object decoded from token contains the username and id fields which tells the serer who made the request
+  const decodedToken = jwt.verify(token, config.SECRET) //decodes token if verified and returns object which token was based on
+  //object decoded from token contains the username and id fields which tells the serer who made the request
   if(!decodedToken.id){
     return response.status(401).json({ error: 'token missing or invalid' })
   }
-  const user = await User.findById(decodedToken.id) //id is retrieved 
+  const user = await User.findById(decodedToken.id) //id is retrieved
 
   //Notice that calling return is crucial, because otherwise the code will execute to the
   //very end and the malformed note gets saved to the notesRouter location.
@@ -81,24 +81,24 @@ notesRouter.post('/', async (request, response, next) => {
 
   //with async/await, try-catch is the recommended way of dealing with exceptions
   //BUT with express-async-errors... not necessary to handle exceptions.
-//try{
-    const savedNote = await note.save()
-    user.notes = user.notes.concat(savedNote._id) //id of note is stored in the notes field of User 
-    await user.save()
+  //try{
+  const savedNote = await note.save()
+  user.notes = user.notes.concat(savedNote._id) //id of note is stored in the notes field of User
+  await user.save()
 
-    response.status(201).json(savedNote)
-//   } catch(exception) {
-//       //next function passes request handling to error handling middleware!
-//       next(exception)
-//   }
-  
+  response.status(201).json(savedNote)
+  //   } catch(exception) {
+  //       //next function passes request handling to error handling middleware!
+  //       next(exception)
+  //   }
+
 })
 
 notesRouter.delete('/:id', async (request, response, next) => {
-    await Note.findByIdAndRemove(request.params.id)
-    response.status(204).end()
-    //POSSIBLE W/O TRY-CATCH BC OF EXPRESS-ASYNC-ERRORS PACKAGE
-    //if exception -> execution automatically passed to error handling middleware
+  await Note.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+  //POSSIBLE W/O TRY-CATCH BC OF EXPRESS-ASYNC-ERRORS PACKAGE
+  //if exception -> execution automatically passed to error handling middleware
 })
 
 notesRouter.put('/:id', (request, response, next) => {

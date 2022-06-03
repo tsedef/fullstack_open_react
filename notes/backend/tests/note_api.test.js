@@ -15,10 +15,10 @@ beforeEach(async () => {
   await Note.deleteMany({}) //resets test database
   console.log('db cleared')
 
-/* 
+  /*
    //Since the execution of tests begins immediately after beforeEach has finished executing,
    //the execution of tests begins before the database state is initialized.
-  
+
    helper.initialNotes.forEach(async (note) => {
       let noteObject = new Note(note)
       await noteObject.save()
@@ -28,10 +28,10 @@ beforeEach(async () => {
 
 */
 
-/*
+  /*
  The returned values of each promise in the array can still be accessed when using the Promise.all method.
  If we wait for the promises to be resolved with the await syntax const results = await Promise.all(promiseArray) ...
- the operation will return an array that contains the resolved values for each promise in the promiseArray, 
+ the operation will return an array that contains the resolved values for each promise in the promiseArray,
  and they appear in the same order as the promises in the array.
 
   const noteObjects = helper.initialNotes
@@ -39,14 +39,14 @@ beforeEach(async () => {
   const promiseArray = noteObjects.map(note => note.save())
   await Promise.all(promiseArray)
 */
-  
+
 
   //guarantees specific execution order
   for( let note of helper.initialNotes ){
-      let noteObject = new Note(note)
-      await noteObject.save()
+    let noteObject = new Note(note)
+    await noteObject.save()
   }
- 
+
 })
 
 // ----------------
@@ -90,7 +90,7 @@ test('a valid note can be added', async () => {
   const notesAtEnd = await helper.notesInDb() //retrieves notes in db using helper func
   expect(notesAtEnd).toHaveLength(helper.initialNotes.length + 1)
 
-  const contents = notesAtEnd.map(n => n.content)   
+  const contents = notesAtEnd.map(n => n.content)
   expect(contents).toContain(
     'async/await simplifies making async calls'
   )
@@ -110,41 +110,41 @@ test('note without content is not added', async () => {
   expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
 }, 50000)
 
-test('a specific note can be viewed', async () =>{
-    const notesAtStart = await helper.notesInDb() //await here to ensure db is connected 
-    const noteToView = notesAtStart[0]
+test('a specific note can be viewed', async () => {
+  const notesAtStart = await helper.notesInDb() //await here to ensure db is connected
+  const noteToView = notesAtStart[0]
 
-    const resultNote = await api //resultNote.body is accessible
+  const resultNote = await api //resultNote.body is accessible
     .get(`/api/notes/${noteToView.id}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-    const processedNoteToView = JSON.parse(JSON.stringify(noteToView).replace('\/', '')) 
-    const rectifiedResultNote = JSON.parse(JSON.stringify(resultNote.body).replace('\/', ''))
-    console.log('processed note from db', processedNoteToView)
-    console.log('rectifiedNote from api request (:id)', rectifiedResultNote)
+  const processedNoteToView = JSON.parse(JSON.stringify(noteToView).replace('\/', ''))
+  const rectifiedResultNote = JSON.parse(JSON.stringify(resultNote.body).replace('\/', ''))
+  console.log('processed note from db', processedNoteToView)
+  console.log('rectifiedNote from api request (:id)', rectifiedResultNote)
 
-    expect(rectifiedResultNote).toEqual(processedNoteToView)
-    
+  expect(rectifiedResultNote).toEqual(processedNoteToView)
+
 })
 
 test('a note can be deleted', async () => {
-    const notesAtStart = await helper.notesInDb()
-    const noteToDelete = notesAtStart[0]
-  
-    await api
-      .delete(`/api/notes/${noteToDelete.id}`)
-      .expect(204)
-  
-    const notesAtEnd = await helper.notesInDb()
-  
-    expect(notesAtEnd).toHaveLength(
-      helper.initialNotes.length - 1
-    )
-  
-    const contents = notesAtEnd.map(r => r.content)
-  
-    expect(contents).not.toContain(noteToDelete.content)
+  const notesAtStart = await helper.notesInDb()
+  const noteToDelete = notesAtStart[0]
+
+  await api
+    .delete(`/api/notes/${noteToDelete.id}`)
+    .expect(204)
+
+  const notesAtEnd = await helper.notesInDb()
+
+  expect(notesAtEnd).toHaveLength(
+    helper.initialNotes.length - 1
+  )
+
+  const contents = notesAtEnd.map(r => r.content)
+
+  expect(contents).not.toContain(noteToDelete.content)
 })
 
 afterAll(() => {
